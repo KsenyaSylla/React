@@ -1,8 +1,12 @@
-import '../index.css';
+import "../index.css";
 import { React, useState, useEffect } from "react";
+import { Container, List, ListItem, Grid, AppBar, Box } from "@material-ui/core";
+import { UserList } from "./UserList";
+import { spacing } from '@material-ui/system';
+
+
 
 const Message = (props) => {
-
     const [messageList, setMessageList] = useState([]);
     const [value, setValue] = useState("");
     const [key, setKey] = useState(0);
@@ -52,32 +56,46 @@ const Message = (props) => {
     }, [messageList]);
 
     return (
-        <div >
-            <h1 className={"message"}>Hello, React</h1>
-            <div className={"list"}>
-                <ul>
-                    {messageList.map((item) => {
-                        return (
-                            <li key={item.id}>
-                                {item.author}: - {item.text}
-                            </li>
-                        );
-                    })}
-                </ul>
-            </div>
+        <Container >
+            <AppBar position={'static'} m={2} p={2} className={"message"}>
+                <Box>Hello, React</Box>
+            </AppBar>
 
-            <form className={"sendMessage"} onSubmit={onSubmit}>
-                <input
-                    value={value}
-                    onChange={onChangeMessageInput}
-                    type="text"
-                    className={"input"}
-                />
-                <button type="submit" className={"submit"}>
-                    Отправить
-                </button>
-            </form>
-        </div>
+            <Grid container
+                justifyContent="center"
+                direction="row"
+            >
+                <Grid item xs={6}>
+                    <UserList></UserList>
+                </Grid>
+
+                <Grid item xs={6}>
+                    <List className={"list"}>
+                        <ul>
+                            {messageList.map((item) => {
+                                return (
+                                    <ListItem key={item.id}>
+                                        {item.author}: - {item.text}
+                                    </ListItem>
+                                );
+                            })}
+                        </ul>
+                    </List>
+
+                    <form className={"sendMessage"} onSubmit={onSubmit}>
+                        <input
+                            value={value}
+                            onChange={onChangeMessageInput}
+                            type="text"
+                            className={"input"}
+                        />
+                        <button type="submit" className={"submit"}>
+                            Отправить
+                        </button>
+                    </form>
+                </Grid>
+            </Grid>
+        </Container>
     );
 }
 export default Message;

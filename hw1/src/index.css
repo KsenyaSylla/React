@@ -11,10 +11,8 @@ code {
 
 .message {
     text-align: center;
-    color: darkblue;
-    background-color: lightgreen;
+    margin-bottom: 8px;
     padding: 10px 10px 10px 10px;
-    border-radius: 5%;
 }
 
 .sendMessage {
