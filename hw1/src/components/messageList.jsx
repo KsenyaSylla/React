@@ -1,6 +1,7 @@
 import { React } from "react";
 import { List, ListItem, Paper } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
+import propTypes from "prop-types";
 
 const useStyles = makeStyles((theme) => ({
     list: {
@@ -26,4 +27,8 @@ export const MessageList = (props) => {
                 })}
             </Paper>
         </List>)
+};
+
+MessageList.propTypes = {
+    messageList: propTypes.array,
 };
