@@ -1,6 +1,6 @@
 import { React, useState, useEffect, useRef } from "react";
 import { Container, Grid, Paper, InputBase, Button } from "@material-ui/core";
-import { UserList } from "./UserList";
+import { ChatList } from "./ChatList";
 import { Header } from "./header";
 import { MessageList } from "./messageList"
 import { makeStyles } from '@material-ui/core/styles';
@@ -84,7 +84,7 @@ const Message = (props) => {
                 direction="row"
             >
                 <Grid item xs={6}>
-                    <UserList></UserList>
+                    <ChatList></ChatList>
                 </Grid>
 
                 <Grid item xs={6}>
