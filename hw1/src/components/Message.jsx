@@ -92,7 +92,7 @@ const Message = (props) => {
 
                     <Paper className={classes.paper} component="form" onSubmit={onSubmit}>
                         <InputBase
-                            ref={inputRef}
+                            inputRef={inputRef}
                             value={value}
                             onChange={onChangeMessageInput}
                             type="text"
