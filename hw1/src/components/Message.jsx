@@ -1,7 +1,8 @@
 import "../index.css";
 import { React, useState, useEffect } from "react";
-import { Container, List, ListItem, Grid, AppBar, Box } from "@material-ui/core";
+import { Container, Grid, AppBar, Box } from "@material-ui/core";
 import { UserList } from "./UserList";
+import { MessageList } from "./messageList"
 import { spacing } from '@material-ui/system';
 
 
@@ -70,17 +71,7 @@ const Message = (props) => {
                 </Grid>
 
                 <Grid item xs={6}>
-                    <List className={"list"}>
-                        <ul>
-                            {messageList.map((item) => {
-                                return (
-                                    <ListItem key={item.id}>
-                                        {item.author}: - {item.text}
-                                    </ListItem>
-                                );
-                            })}
-                        </ul>
-                    </List>
+                    <MessageList messageList={messageList}></MessageList>
 
                     <form className={"sendMessage"} onSubmit={onSubmit}>
                         <input
