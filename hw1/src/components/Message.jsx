@@ -1,5 +1,5 @@
-import { React, useState, useEffect } from "react";
-import { Container, Grid, AppBar, Box, Paper, InputBase, Button } from "@material-ui/core";
+import { React, useState, useEffect, useRef } from "react";
+import { Container, Grid, Paper, InputBase, Button } from "@material-ui/core";
 import { UserList } from "./UserList";
 import { Header } from "./header";
 import { MessageList } from "./messageList"
@@ -24,6 +24,8 @@ const Message = (props) => {
     const [value, setValue] = useState("");
     const [key, setKey] = useState(0);
     const classes = useStyles();
+    const inputRef = useRef(null);
+
     const onChangeMessageInput = (event) => {
         setValue(event.target.value);
     };
@@ -51,6 +53,10 @@ const Message = (props) => {
         sendMessage("user", value, getId(key));
         setValue("");
     };
+
+    useEffect(() => {
+        inputRef.current.focus();
+    });
 
     useEffect(() => {
         if (messageList.length === 0) {
@@ -86,6 +92,7 @@ const Message = (props) => {
 
                     <Paper className={classes.paper} component="form" onSubmit={onSubmit}>
                         <InputBase
+                            ref={inputRef}
                             value={value}
                             onChange={onChangeMessageInput}
                             type="text"

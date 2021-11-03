@@ -6,7 +6,9 @@ const useStyles = makeStyles((theme) => ({
     list: {
         border: "none",
         marginBottom: theme.spacing(2)
-
+    },
+    paper: {
+        padding: theme.spacing(1)
     }
 }));
 
@@ -18,7 +20,7 @@ export const MessageList = (props) => {
                 {props.messageList.map((item) => {
                     return (
                         <ListItem key={item.id}>
-                            {item.author}: - {item.text}
+                            {item.author}: - <Paper className={classes.paper}>{item.text}</Paper>
                         </ListItem>
                     );
                 })}
