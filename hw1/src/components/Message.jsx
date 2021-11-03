@@ -1,16 +1,29 @@
-import "../index.css";
 import { React, useState, useEffect } from "react";
-import { Container, Grid, AppBar, Box } from "@material-ui/core";
+import { Container, Grid, AppBar, Box, Paper, InputBase, Button } from "@material-ui/core";
 import { UserList } from "./UserList";
+import { Header } from "./header";
 import { MessageList } from "./messageList"
-import { spacing } from '@material-ui/system';
+import { makeStyles } from '@material-ui/core/styles';
+import { Send } from "@material-ui/icons";
 
 
+const useStyles = makeStyles((theme) => ({
+    paper: {
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        paddingLeft: theme.spacing(1),
+    },
+    input: {
+        flexGrow: 1,
+    }
+}));
 
 const Message = (props) => {
     const [messageList, setMessageList] = useState([]);
     const [value, setValue] = useState("");
     const [key, setKey] = useState(0);
+    const classes = useStyles();
     const onChangeMessageInput = (event) => {
         setValue(event.target.value);
     };
@@ -58,9 +71,7 @@ const Message = (props) => {
 
     return (
         <Container >
-            <AppBar position={'static'} m={2} p={2} className={"message"}>
-                <Box>Hello, React</Box>
-            </AppBar>
+            <Header />
 
             <Grid container
                 justifyContent="center"
@@ -73,17 +84,17 @@ const Message = (props) => {
                 <Grid item xs={6}>
                     <MessageList messageList={messageList}></MessageList>
 
-                    <form className={"sendMessage"} onSubmit={onSubmit}>
-                        <input
+                    <Paper className={classes.paper} component="form" onSubmit={onSubmit}>
+                        <InputBase
                             value={value}
                             onChange={onChangeMessageInput}
                             type="text"
-                            className={"input"}
+                            className={classes.input}
                         />
-                        <button type="submit" className={"submit"}>
-                            Отправить
-                        </button>
-                    </form>
+                        <Button type="submit" className={"submit"}>
+                            <Send />
+                        </Button>
+                    </Paper>
                 </Grid>
             </Grid>
         </Container>

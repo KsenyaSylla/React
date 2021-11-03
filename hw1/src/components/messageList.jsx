@@ -1,10 +1,20 @@
 import { React } from "react";
-import { List, ListItem } from "@material-ui/core";
+import { List, ListItem, Paper } from "@material-ui/core";
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+    list: {
+        border: "none",
+        marginBottom: theme.spacing(2)
+
+    }
+}));
 
 export const MessageList = (props) => {
+    const classes = useStyles();
     return (
-        <List className={"list"}>
-            <ul>
+        <List className={classes.list}>
+            <Paper>
                 {props.messageList.map((item) => {
                     return (
                         <ListItem key={item.id}>
@@ -12,6 +22,6 @@ export const MessageList = (props) => {
                         </ListItem>
                     );
                 })}
-            </ul>
+            </Paper>
         </List>)
 };
