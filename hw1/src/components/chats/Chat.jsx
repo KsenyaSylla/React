@@ -1,8 +1,9 @@
 import React from "react";
 import { ListItem, ListItemText, Paper, Button } from "@material-ui/core";
-import { HighlightOff, Launch } from "@material-ui/icons";
+import { HighlightOff } from "@material-ui/icons";
 import { makeStyles } from '@material-ui/core/styles';
 import propTypes from "prop-types";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -26,8 +27,7 @@ export const Chat = (props) => {
                 <Button>
                     <HighlightOff className={classes.deleteButton} />
                 </Button>
-                <ListItemText>{item.author}</ListItemText>
-                <Button><Launch /></Button>
+                <ListItemText><Link to={`/chats/${item.id}`}>{item.author}</Link></ListItemText>
             </Paper>
         </ListItem>);
 };

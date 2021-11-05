@@ -1,24 +1,23 @@
-import { React, useState, useEffect, useRef } from "react";
+import { React, useState, useRef, useEffect } from "react";
+import { makeStyles } from "@material-ui/styles";
 import { Grid, Paper, InputBase, Button } from "@material-ui/core";
-import { ChatList } from "./ChatList";
-import { MessageList } from "./messageList"
-import { makeStyles } from '@material-ui/core/styles';
 import { Send } from "@material-ui/icons";
-
+import { MessageList } from "./messageList";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
-        paddingLeft: theme.spacing(1),
+        paddingLeft: "8px"
     },
     input: {
         flexGrow: 1,
     }
 }));
 
-const Message = (props) => {
+export const ChatFull = (props) => {
     const [messageList, setMessageList] = useState([]);
     const [value, setValue] = useState("");
     const [key, setKey] = useState(0);
@@ -79,11 +78,10 @@ const Message = (props) => {
             justifyContent="center"
             direction="row"
         >
-            <Grid item xs={6}>
-                <ChatList></ChatList>
-            </Grid>
+            <Button><Link to="/chats">Back to chats</Link></Button>
 
-            <Grid item xs={6}>
+            <Grid>
+                <Paper>{messageList.author}</Paper>
                 <MessageList messageList={messageList}></MessageList>
 
                 <Paper className={classes.paper} component="form" onSubmit={onSubmit}>
@@ -101,5 +99,4 @@ const Message = (props) => {
             </Grid>
         </Grid>
     );
-}
-export default Message;
+};
