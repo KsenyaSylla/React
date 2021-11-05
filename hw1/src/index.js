@@ -2,11 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import Message from "./components/Message.jsx";
+import { Main } from "./components/main.jsx"
+import { BrowserRouter } from "react-router-dom";
 
-ReactDOM.render(<React.StrictMode>
-    <Message message="Hello React!" />
-</React.StrictMode>,
+ReactDOM.render(
+    <React.StrictMode>
+        <BrowserRouter>
+            <Main></Main>
+        </BrowserRouter>
+    </React.StrictMode>
+    ,
     document.getElementById('root')
 );
 

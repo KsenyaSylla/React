@@ -1,5 +1,5 @@
 import { React } from "react";
-import { AppBar, Box } from "@material-ui/core";
+import { AppBar, Box, Menu } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
@@ -14,6 +14,7 @@ export const Header = () => {
     return (
         <AppBar position={'static'} m={2} p={2} className={classes.header}>
             <Box>Hello, React</Box>
+            <Menu></Menu>
         </AppBar>
     )
 }
