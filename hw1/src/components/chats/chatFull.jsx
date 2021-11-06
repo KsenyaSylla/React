@@ -56,6 +56,7 @@ export const ChatFull = (props) => {
         setValue("");
     };
 
+
     useEffect(() => {
         inputRef.current.focus();
     });

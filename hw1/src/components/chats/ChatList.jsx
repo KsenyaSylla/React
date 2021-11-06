@@ -8,6 +8,7 @@ const chatList = [...UserList];
 
 export const ChatList = (props) => {
     const [userList, setUserList] = useState(chatList);
+
     const addChat = () => {
         let newChatList = [...userList];
         let id = userList.length + 1;
@@ -22,13 +23,21 @@ export const ChatList = (props) => {
         setUserList(newChatList);
     };
 
+    const updateUserList = (chatId) => {
+        let newChatList = [...userList];
+        const find = newChatList.findIndex((item) => item.id == chatId);
+        newChatList.splice(find, 1);
+        console.log(newChatList);
+        setUserList(newChatList);
+    };
+
     return (
         <>
             <List>
                 <Button onClick={addChat}>Add chat<AddIcon /></Button>
                 {userList.map((item) => {
                     return (
-                        <Chat key={item.id} item={item} />
+                        <Chat key={item.id} item={item} updateUserList={updateUserList} />
                     )
                 })
                 }

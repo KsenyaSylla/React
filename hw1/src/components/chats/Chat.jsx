@@ -21,10 +21,14 @@ const useStyles = makeStyles((theme) => ({
 export const Chat = (props) => {
     const classes = useStyles();
     let item = props.item;
+    const updateUserList = props.updateUserList;
+    const deleteChat = () => {
+        updateUserList(item.id);        // передать в updateChatList id чата
+    };
     return (
         <ListItem >
             <Paper className={classes.paper}>
-                <Button>
+                <Button onClick={deleteChat}>
                     <HighlightOff className={classes.deleteButton} />
                 </Button>
                 <ListItemText><Link to={`/chats/${item.id}`}>{item.author}</Link></ListItemText>
@@ -34,4 +38,5 @@ export const Chat = (props) => {
 
 Chat.propTypes = {
     item: propTypes.object,
+    updateUserList: propTypes.func,
 };
