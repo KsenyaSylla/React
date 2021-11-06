@@ -2,6 +2,7 @@ import { React, useState, useRef } from "react";
 import { AppBar, Box, Button, Popper, Grow, Paper, ClickAwayListener, MenuList, MenuItem } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
+import HomeIcon from '@material-ui/icons/Home';
 import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
@@ -42,7 +43,7 @@ export const Header = () => {
     }
     return (
         <AppBar position={'static'} className={classes.header}>
-            <Box><Link to="/">Hello, React</Link></Box>
+            <Box><Link to="/"><HomeIcon style={{ color: 'white' }} /></Link></Box>
             <Box >
                 <Button
                     ref={anchorRef}
@@ -50,7 +51,7 @@ export const Header = () => {
                     aria-haspopup="true"
                     onClick={handleToggle}
                 >
-                    <MenuIcon />
+                    <MenuIcon style={{ color: 'white' }} fontSize="large" />
                 </Button>
                 <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal>
                     {({ TransitionProps, placement }) => (
@@ -71,5 +72,5 @@ export const Header = () => {
                 </Popper>
             </Box>
         </AppBar>
-    )
-}
+    );
+};

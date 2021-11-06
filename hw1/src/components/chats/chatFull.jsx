@@ -3,7 +3,8 @@ import { makeStyles } from "@material-ui/styles";
 import { Grid, Paper, InputBase, Button } from "@material-ui/core";
 import { Send } from "@material-ui/icons";
 import { MessageList } from "./messageList";
-import { Link } from "react-router-dom";
+import { UserList } from "./userList";
+import { Link, useParams } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -14,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
     },
     input: {
         flexGrow: 1,
-    }
+    },
 }));
 
 export const ChatFull = (props) => {
@@ -23,6 +24,9 @@ export const ChatFull = (props) => {
     const [key, setKey] = useState(0);
     const classes = useStyles();
     const inputRef = useRef(null);
+    const chatList = [...UserList];
+    const { chatId } = useParams();
+    const chat = chatList.find((item) => item.id == chatId);
 
     const onChangeMessageInput = (event) => {
         setValue(event.target.value);
@@ -48,7 +52,7 @@ export const ChatFull = (props) => {
 
     const onSubmit = (event) => {
         event.preventDefault();
-        sendMessage("user", value, getId(key));
+        sendMessage("Lizard", value, getId(key));
         setValue("");
     };
 
@@ -61,11 +65,11 @@ export const ChatFull = (props) => {
             return;
         }
         const tail = messageList[messageList.length - 1];
-        if (tail.author === "bot") {
+        if (tail.author === chat.author) {
             return;
         } else {
             const timerId = setTimeout(() => {
-                sendMessage("bot", "Hello, human", getId(key));
+                sendMessage(chat.author, "Hello, Lizard", getId(key));
             }, 1500);
             return () => {
                 clearTimeout(timerId);
@@ -73,15 +77,25 @@ export const ChatFull = (props) => {
         }
     }, [messageList]);
 
+    if (!chat) {
+        return (
+            <>
+                <Button buttonRef={inputRef}><Link to="/chats">Back to chats</Link></Button>
+                <img src="https://previews.123rf.com/images/kaymosk/kaymosk1804/kaymosk180400006/100130939-error-404-page-not-found-error-with-glitch-effect-on-screen-vector-illustration-for-your-design-.jpg" alt="Page not found" />
+            </>
+        )
+    }
+
     return (
         <Grid container
             justifyContent="center"
             direction="row"
         >
-            <Button><Link to="/chats">Back to chats</Link></Button>
-
-            <Grid>
-                <Paper>{messageList.author}</Paper>
+            <Grid item sx={6}>
+                <Button ><Link to="/chats">Back to chats</Link></Button>
+            </Grid>
+            <Grid item sx={6}>
+                <Paper>{chat.author}</Paper>
                 <MessageList messageList={messageList}></MessageList>
 
                 <Paper className={classes.paper} component="form" onSubmit={onSubmit}>

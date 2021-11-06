@@ -2,12 +2,12 @@ import { Container } from "@material-ui/core";
 import { Header } from "./components/header.jsx";
 import { Main } from "./components/main.jsx";
 import { Info } from "./components/profile/info.jsx";
-import { Routes, Route } from "react-router";
+import { Routes, Route } from "react-router-dom";
 import Message from "./components/chats/Message.jsx";
 import { makeStyles } from "@material-ui/styles";
 import { ChatFull } from "./components/chats/chatFull.jsx";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
     center: {
         display: "flex",
         flexDirection: "column",
@@ -22,7 +22,6 @@ function App() {
         <>
             <Header />
             <Container className={classes.center}>
-
                 <Routes>
                     <Route path="/profile" element={<Info />} />
                     <Route exact path="/chats/:chatId" element={<ChatFull />} />
@@ -32,6 +31,5 @@ function App() {
             </Container>
         </>
     );
-}
-
+};
 export default App;
