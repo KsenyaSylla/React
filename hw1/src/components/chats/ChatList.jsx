@@ -1,15 +1,31 @@
 import { React, useState } from "react";
-import { List } from "@material-ui/core";
+import { List, Button } from "@material-ui/core";
 import { Chat } from "./Chat";
 import { UserList } from "./userList";
+import AddIcon from '@material-ui/icons/Add';
+
+const chatList = [...UserList];
 
 export const ChatList = (props) => {
-    const chatList = [...UserList];
     const [userList, setUserList] = useState(chatList);
+    const addChat = () => {
+        let newChatList = [...userList];
+        let id = userList.length + 1;
+        let author = prompt("Enter name of user");
+        let newChat = {
+            "id": id,
+            "author": author,
+            "text": `Hello, ${author}`
+        };
+        newChatList.push(newChat);
+        console.log(newChatList);
+        setUserList(newChatList);
+    };
 
     return (
         <>
             <List>
+                <Button onClick={addChat}>Add chat<AddIcon /></Button>
                 {userList.map((item) => {
                     return (
                         <Chat key={item.id} item={item} />
