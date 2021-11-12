@@ -27,7 +27,6 @@ export const ChatList = (props) => {
         let newChatList = [...userList];
         const find = newChatList.findIndex((item) => item.id == chatId);
         newChatList.splice(find, 1);
-        console.log(newChatList);
         setUserList(newChatList);
     };
 
