@@ -1,5 +1,5 @@
 import { createStore } from "redux";
-import { profileReducer } from "../components/profile/reducer";
+import { profileReducer } from "./reducer.js";
 
 export const profileStore = createStore(
     profileReducer,

@@ -2,8 +2,8 @@ import { React, useRef, useState } from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import { Card, CardContent, CardMedia, Typography, FormControl, FormControlLabel, FormLabel, RadioGroup, Radio, Button } from '@material-ui/core/';
 import { Provider, useDispatch, useSelector } from "react-redux";
-import { profileStore } from "../../store/profileStore";
-import { SET_GENDER_FEMALE, SET_GENDER_MALE, SET_GENDER_OTHER } from "./action";
+import { profileStore } from "../../store/profile/profileStore";
+import { SET_GENDER_FEMALE, SET_GENDER_MALE, SET_GENDER_OTHER } from "../../store/profile/action";
 
 const useStyles = makeStyles((theme) => ({
     root: {

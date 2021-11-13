@@ -1,4 +1,4 @@
-import { SET_GENDER_MALE, SET_GENDER_FEMALE, SET_GENDER_OTHER } from "./action";
+import { SET_GENDER_MALE, SET_GENDER_FEMALE, SET_GENDER_OTHER } from "./action.js";
 const initialState = { gender: "other" };
 
 export const profileReducer = (state = initialState, action) => {
@@ -13,7 +13,7 @@ export const profileReducer = (state = initialState, action) => {
             return { gender: "other" };
         }
         default: {
-            return { gender: "not your bisness, that's default" }
+            return state;
         }
     }
 };
