@@ -1,39 +1,35 @@
-import { React, useState } from "react";
+import { React } from "react";
 import { List, Button } from "@material-ui/core";
 import { Chat } from "./Chat";
-import { UserList } from "./userList";
 import AddIcon from '@material-ui/icons/Add';
+import { useDispatch, useSelector } from "react-redux";
+import { addChat, deleteChat } from "../../store/chats/chat/actions.js";
+import { nanoid } from "nanoid";
 
-const chatList = [...UserList];
 
 export const ChatList = (props) => {
-    const [userList, setUserList] = useState(chatList);
+    const dispatch = useDispatch();
+    const userList = useSelector((state) => (state.chats)).chats;
+    console.log(userList);
 
-    const addChat = () => {
-        let newChatList = [...userList];
-        let id = userList.length + 1;
+    const addNewChat = () => {
+        let id = nanoid();
         let author = prompt("Enter name of user");
         let newChat = {
             "id": id,
             "author": author,
-            "text": `Hello, ${author}`
         };
-        newChatList.push(newChat);
-        console.log(newChatList);
-        setUserList(newChatList);
+        dispatch(addChat(newChat));
     };
 
     const updateUserList = (chatId) => {
-        let newChatList = [...userList];
-        const find = newChatList.findIndex((item) => item.id == chatId);
-        newChatList.splice(find, 1);
-        setUserList(newChatList);
+        dispatch(deleteChat(chatId));
     };
 
     return (
         <>
             <List>
-                <Button onClick={addChat}>Add chat<AddIcon /></Button>
+                <Button onClick={addNewChat}>Add chat<AddIcon /></Button>
                 {userList.map((item) => {
                     return (
                         <Chat key={item.id} item={item} updateUserList={updateUserList} />

@@ -1,8 +1,7 @@
 import { React, useRef, useState } from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import { Card, CardContent, CardMedia, Typography, FormControl, FormControlLabel, FormLabel, RadioGroup, Radio, Button } from '@material-ui/core/';
-import { Provider, useDispatch, useSelector } from "react-redux";
-import { profileStore } from "../../store/profile/profileStore";
+import { useDispatch, useSelector } from "react-redux";
 import { SET_GENDER_FEMALE, SET_GENDER_MALE, SET_GENDER_OTHER } from "../../store/profile/action";
 
 const useStyles = makeStyles((theme) => ({
@@ -17,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const Info = () => {
+export const Profile = () => {
     const dispatch = useDispatch();
     const gender = useSelector((state) => state.gender);
     const classes = useStyles();
@@ -74,12 +73,4 @@ const Info = () => {
             </CardContent>
         </Card >
     );
-};
-
-export const Profile = () => {
-    return (
-        <Provider store={profileStore}>
-            <Info />
-        </Provider>
-    )
 };
