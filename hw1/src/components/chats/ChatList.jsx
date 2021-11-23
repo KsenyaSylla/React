@@ -10,7 +10,6 @@ import { nanoid } from "nanoid";
 export const ChatList = (props) => {
     const dispatch = useDispatch();
     const userList = useSelector((state) => (state.chats)).chats;
-    console.log(userList);
 
     const addNewChat = () => {
         let id = nanoid();

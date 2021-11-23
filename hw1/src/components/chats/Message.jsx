@@ -4,6 +4,9 @@ import { ChatList } from "./ChatList";
 import { MessageList } from "./messageList"
 import { makeStyles } from '@material-ui/core/styles';
 import { Send } from "@material-ui/icons";
+import { useDispatch, useSelector } from "react-redux";
+import { addMessage, deleteMessage } from "../../store/chats/messages/actions";
+import { getMessageList } from "../../store/chats/messages/selector"
 
 
 const useStyles = makeStyles((theme) => ({
@@ -17,39 +20,41 @@ const useStyles = makeStyles((theme) => ({
         flexGrow: 1,
     }
 }));
+// вывести в отдельный компонент форму отправки сообщений, связать чат листы по айдишнику чатов
 
 const Message = (props) => {
-    const [messageList, setMessageList] = useState([]);
+    //const [messageList, setMessageList] = useState([]);
+    const messageListFull = useSelector(getMessageList);
+    const messageList = messageListFull.filter((item) => (item.chatId = chatId));
     const [value, setValue] = useState("");
-    const [key, setKey] = useState(0);
+    const [key, setKey] = useState('0');
     const classes = useStyles();
     const inputRef = useRef(null);
+    const dispatch = useDispatch();
 
     const onChangeMessageInput = (event) => {
         setValue(event.target.value);
     };
 
-    function getId(key) {
+    function getMessageId(key) {
         let id = key + 1;
         setKey(id);
         return id;
     };
 
-    const sendMessage = (author, text, id) => {
-        const newMessageList = [...messageList];
+    const sendMessage = (author, text, id, chatId) => {
         const newMessage = {
-            author,
-            text,
-            id
+            "chatId": chatId,
+            "author": author,
+            "messageId": id,
+            "messageText": text
         };
-
-        newMessageList.push(newMessage);
-        setMessageList(newMessageList);
+        dispatch(addMessage(newMessage));
     };
 
     const onSubmit = (event) => {
         event.preventDefault();
-        sendMessage("user", value, getId(key));
+        sendMessage("user", value, getMessageId(key), chatId);
         setValue("");
     };
 
@@ -66,7 +71,7 @@ const Message = (props) => {
             return;
         } else {
             const timerId = setTimeout(() => {
-                sendMessage("bot", "Hello, human", getId(key));
+                sendMessage("bot", "Hello, human", getMessageId(key));
             }, 1500);
             return () => {
                 clearTimeout(timerId);

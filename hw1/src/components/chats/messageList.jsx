@@ -20,7 +20,7 @@ export const MessageList = (props) => {
             <Paper>
                 {props.messageList.map((item) => {
                     return (
-                        <ListItem key={item.id}>
+                        <ListItem key={item.messageId}>
                             {item.author}: - <Paper className={classes.paper}>{item.text}</Paper>
                         </ListItem>
                     );
