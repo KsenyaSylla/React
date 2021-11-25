@@ -5,7 +5,7 @@ import { Send } from "@material-ui/icons";
 import { MessageList } from "./messageList";
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { addMessage, deleteMessage } from "../../store/chats/messages/actions";
+import { addMessage } from "../../store/chats/messages/actions";
 import { getMessageList } from "../../store/chats/messages/selector"
 import { getChatList } from "../../store/chats/chat/selectors";
 

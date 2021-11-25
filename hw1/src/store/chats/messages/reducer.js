@@ -18,16 +18,16 @@ const initialState = {
 };
 
 export const messageReduser = (state = initialState, action) => {
+    const messageList = state.messageList;
     switch (action.type) {
         case ADD_MESSAGE:
-            const chatId = action.payload.chatId;
+            let chatId = action.payload.chatId;
             const { id, author, text } = action.payload;
             const newMessage = {
                 "id": id,
                 "author": author,
                 "text": text
             };
-            const messageList = state.messageList;
             messageList[chatId] = [
                 ...(messageList[chatId] || []),
                 newMessage
@@ -37,8 +37,16 @@ export const messageReduser = (state = initialState, action) => {
                 messageList
             });
         case DELETE_MESSAGE:
-
-            return;
+            const chatIdForDeleteMessage = action.payload.chatId;
+            const messageId = action.payload.messageId;
+            const messageListForDelete = messageList[chatIdForDeleteMessage]; //array
+            const messageIndex = messageListForDelete.findIndex((item) => (item.id == messageId));
+            messageListForDelete.splice(messageIndex, 1);
+            messageList[chatIdForDeleteMessage] = [...messageListForDelete];
+            return ({
+                ...state,
+                messageList
+            });
 
         case DELETE_MESSAGES_BY_CHAT_ID:
 
