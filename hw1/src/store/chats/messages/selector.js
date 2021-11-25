@@ -1,1 +1,3 @@
-export const getMessageList = (state) => (state.messageList);
+export const getMessageListRoot = (state) => (state.messages);
+export const getMessageList = (state) => (getMessageListRoot(state).messageList
+);

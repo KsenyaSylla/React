@@ -1,1 +1,2 @@
-export const getChatList = (state) => (state.chats);
+export const getChatListRoot = (state) => (state.chats);
+export const getChatList = (state) => (getChatListRoot(state).chats);

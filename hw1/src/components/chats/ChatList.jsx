@@ -5,11 +5,13 @@ import AddIcon from '@material-ui/icons/Add';
 import { useDispatch, useSelector } from "react-redux";
 import { addChat, deleteChat } from "../../store/chats/chat/actions.js";
 import { nanoid } from "nanoid";
+import { getChatList } from "../../store/chats/chat/selectors";
+import { deleteMessagesByChatId } from "../../store/chats/messages/actions";
 
 
 export const ChatList = (props) => {
     const dispatch = useDispatch();
-    const userList = useSelector((state) => (state.chats)).chats;
+    const userList = useSelector(getChatList);
 
     const addNewChat = () => {
         let id = nanoid();
@@ -23,6 +25,7 @@ export const ChatList = (props) => {
 
     const updateUserList = (chatId) => {
         dispatch(deleteChat(chatId));
+        dispatch(deleteMessagesByChatId(chatId));
     };
 
     return (

@@ -4,10 +4,6 @@ import { ChatList } from "./ChatList";
 import { MessageList } from "./messageList"
 import { makeStyles } from '@material-ui/core/styles';
 import { Send } from "@material-ui/icons";
-import { useDispatch, useSelector } from "react-redux";
-import { addMessage, deleteMessage } from "../../store/chats/messages/actions";
-import { getMessageList } from "../../store/chats/messages/selector"
-
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -23,40 +19,40 @@ const useStyles = makeStyles((theme) => ({
 // вывести в отдельный компонент форму отправки сообщений, связать чат листы по айдишнику чатов
 
 const Message = (props) => {
-    //const [messageList, setMessageList] = useState([]);
-    const messageListFull = useSelector(getMessageList);
-    const messageList = messageListFull.filter((item) => (item.chatId = chatId));
+    const [messageList, setMessageList] = useState([]);
     const [value, setValue] = useState("");
-    const [key, setKey] = useState('0');
+    const [key, setKey] = useState(0);
     const classes = useStyles();
     const inputRef = useRef(null);
-    const dispatch = useDispatch();
 
     const onChangeMessageInput = (event) => {
         setValue(event.target.value);
     };
 
-    function getMessageId(key) {
+    function getId(key) {
         let id = key + 1;
         setKey(id);
         return id;
     };
 
-    const sendMessage = (author, text, id, chatId) => {
+    const sendMessage = (author, text, id) => {
+        const newMessageList = [...messageList];
         const newMessage = {
-            "chatId": chatId,
-            "author": author,
-            "messageId": id,
-            "messageText": text
+            author,
+            text,
+            id
         };
-        dispatch(addMessage(newMessage));
+
+        newMessageList.push(newMessage);
+        setMessageList(newMessageList);
     };
 
     const onSubmit = (event) => {
         event.preventDefault();
-        sendMessage("user", value, getMessageId(key), chatId);
+        sendMessage("Lizard", value, getId(key));
         setValue("");
     };
+
 
     useEffect(() => {
         inputRef.current.focus();
@@ -66,17 +62,13 @@ const Message = (props) => {
         if (messageList.length === 0) {
             return;
         }
-        const tail = messageList[messageList.length - 1];
-        if (tail.author === "bot") {
-            return;
-        } else {
-            const timerId = setTimeout(() => {
-                sendMessage("bot", "Hello, human", getMessageId(key));
-            }, 1500);
-            return () => {
-                clearTimeout(timerId);
-            };
-        }
+
+        const timerId = setTimeout(() => {
+            sendMessage(chat.author, "Hello, Lizard", getId(key));
+        }, 1500);
+        return () => {
+            clearTimeout(timerId);
+        };
     }, [messageList]);
 
     return (

@@ -3,8 +3,11 @@ import { makeStyles } from "@material-ui/styles";
 import { Grid, Paper, InputBase, Button } from "@material-ui/core";
 import { Send } from "@material-ui/icons";
 import { MessageList } from "./messageList";
-import { UserList } from "./userList";
 import { Link, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { addMessage, deleteMessage } from "../../store/chats/messages/actions";
+import { getMessageList } from "../../store/chats/messages/selector"
+import { getChatList } from "../../store/chats/chat/selectors";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -18,44 +21,46 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+
+
 export const ChatFull = (props) => {
-    const [messageList, setMessageList] = useState([]);
+    //const [messageList, setMessageList] = useState([]);
+    const messageListFull = useSelector(getMessageList);
+    const { chatId } = useParams();
+    const messageList = messageListFull[chatId];
     const [value, setValue] = useState("");
-    const [key, setKey] = useState(0);
+    const [key, setKey] = useState('0');
     const classes = useStyles();
     const inputRef = useRef(null);
-    const chatList = [...UserList];
-    const { chatId } = useParams();
+    const dispatch = useDispatch();
+    const chatList = useSelector(getChatList);
     const chat = chatList.find((item) => item.id == chatId);
 
     const onChangeMessageInput = (event) => {
         setValue(event.target.value);
     };
 
-    function getId(key) {
-        let id = key + 1;
+    function getMessageId(key) {
+        let id = +key + 1;
         setKey(id);
         return id;
     };
 
-    const sendMessage = (author, text, id) => {
-        const newMessageList = [...messageList];
+    const sendMessage = (author, text, id, chatId) => {
         const newMessage = {
-            author,
-            text,
-            id
+            "chatId": chatId,
+            "id": id,
+            "author": author,
+            "text": text
         };
-
-        newMessageList.push(newMessage);
-        setMessageList(newMessageList);
+        dispatch(addMessage(newMessage));
     };
 
     const onSubmit = (event) => {
         event.preventDefault();
-        sendMessage("Lizard", value, getId(key));
+        sendMessage("Lizard", value, getMessageId(key), chatId);
         setValue("");
     };
-
 
     useEffect(() => {
         inputRef.current.focus();
@@ -66,17 +71,18 @@ export const ChatFull = (props) => {
             return;
         }
         const tail = messageList[messageList.length - 1];
-        if (tail.author === chat.author) {
+        if (tail.author !== "Lizard") {
             return;
         } else {
             const timerId = setTimeout(() => {
-                sendMessage(chat.author, "Hello, Lizard", getId(key));
+                sendMessage(chat.author, "Hello, Lizard", getMessageId(key), chatId);
             }, 1500);
             return () => {
                 clearTimeout(timerId);
             };
         }
     }, [messageList]);
+
 
     if (!chat) {
         return (
