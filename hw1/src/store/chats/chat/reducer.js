@@ -1,5 +1,5 @@
 import { ADD_CHAT, DELETE_CHAT } from "./actions";
-import { getChatList } from "./selectors";
+import { getChatListRoot } from "./selectors";
 
 const initialState = {
     chats: [{
@@ -19,7 +19,7 @@ const initialState = {
 export const chatReducer = (state = initialState, action) => {
     switch (action.type) {
         case ADD_CHAT:
-            const chatList = getChatList(state);
+            const chatList = getChatListRoot(state);
             return ({
                 ...state,
                 chats: [...chatList,
@@ -27,9 +27,7 @@ export const chatReducer = (state = initialState, action) => {
             })
                 ;
         case DELETE_CHAT: {
-            const chatList = getChatList(state);
-            console.log(chatList);
-            console.log(action.payload);
+            const chatList = getChatListRoot(state);
             const newChatList = chatList.filter((chat) => chat.id !== action.payload);
             return {
                 ...state,

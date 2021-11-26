@@ -48,10 +48,14 @@ export const messageReduser = (state = initialState, action) => {
                 messageList
             });
 
-        case DELETE_MESSAGES_BY_CHAT_ID:
-
-            return;
-
+        case DELETE_MESSAGES_BY_CHAT_ID: {
+            const chatId = action.payload;
+            delete messageList[chatId];
+            return ({
+                ...state,
+                messageList
+            });
+        }
         default:
             return state;
     }
