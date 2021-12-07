@@ -103,8 +103,10 @@ export const ChatFull = (props) => {
             </Grid>
             <Grid item sx={6}>
                 <Paper>{chat.author}</Paper>
-                <MessageList></MessageList>
 
+                <MessageList></MessageList>
+                {//sending message form
+                }
                 <Paper className={classes.paper} component="form" onSubmit={onSubmit}>
                     <InputBase
                         inputRef={inputRef}
