@@ -1,12 +1,24 @@
-import { Thunk } from "redux-thunk";
+import { thunk } from "redux-thunk";
+import { addMessage } from "../chats/messages/actions";
 
-export const messageFromBotThunk = () => {
 
+export const messageFromBotThunk = (author, text, id, chatId) => (dispatch) => {
+    if (author !== "Lizard") {
+        return;
+    } else {
+        const newMessage = {
+            "chatId": chatId,
+            "id": id,
+            "author": author,
+            "text": text
+        };
 
-    const timerId = setTimeout(() => {
-        sendMessage(chat.author, "Hello, Lizard", getMessageId(key), chatId);
-    }, 1500);
-    return () => {
-        clearTimeout(timerId);
-    };
+        const timerId = setTimeout(() => {
+            dispatch(addMessage(newMessage));
+        },
+            1500);
+        return () => {
+            clearTimeout(timerId);
+        };
+    }
 };

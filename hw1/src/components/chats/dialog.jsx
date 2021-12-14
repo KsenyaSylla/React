@@ -1,13 +1,12 @@
-import { React, useState, useRef, useEffect } from "react";
+import { React, useRef, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/styles";
 import { Grid, Paper, InputBase, Button } from "@material-ui/core";
 import { Send } from "@material-ui/icons";
 import { MessageList } from "./messageList";
 import { Link, useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import { addMessage } from "../../store/chats/messages/actions";
-import { getMessageList } from "../../store/chats/messages/selector"
-import { getChatList } from "../../store/chats/chat/selectors";
+import { chatCheckedHOC } from "../HOCs/dialigHOC";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -23,22 +22,17 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-export const ChatFull = (props) => {
-    //const [messageList, setMessageList] = useState([]);
-    const messageListFull = useSelector(getMessageList);
-    const { chatId } = useParams();
-    const messageList = messageListFull[chatId];
-    const [value, setValue] = useState("");
-    const [key, setKey] = useState('0');
+export const DialogPresent = (chat) => {
     const classes = useStyles();
-    const inputRef = useRef(null);
+    const [value, setValue] = useState("");
+    const { chatId } = useParams();
+    const [key, setKey] = useState('0');
     const dispatch = useDispatch();
-    const chatList = useSelector(getChatList);
-    const chat = chatList.find((item) => item.id == chatId);
 
-    const onChangeMessageInput = (event) => {
-        setValue(event.target.value);
-    };
+    const inputRef = useRef(null);
+    useEffect(() => {
+        inputRef.current.focus();
+    });
 
     function getMessageId(key) {
         let id = +key + 1;
@@ -53,6 +47,7 @@ export const ChatFull = (props) => {
             "author": author,
             "text": text
         };
+        console.log("Message: ", newMessage);
         dispatch(addMessage(newMessage));
     };
 
@@ -61,37 +56,23 @@ export const ChatFull = (props) => {
         sendMessage("Lizard", value, getMessageId(key), chatId);
         setValue("");
     };
+    const onChangeMessageInput = (event) => {
+        setValue(event.target.value);
+    };
 
-    useEffect(() => {
-        inputRef.current.focus();
-    });
-
-    useEffect(() => {
-        if (messageList.length === 0) {
-            return;
-        }
-        const tail = messageList[messageList.length - 1];
-        if (tail.author !== "Lizard") {
-            return;
-        } else {
-            const timerId = setTimeout(() => {
-                sendMessage(chat.author, "Hello, Lizard", getMessageId(key), chatId);
-            }, 1500);
-            return () => {
-                clearTimeout(timerId);
-            };
-        }
-    }, [messageList]);
+    // useEffect(() => {
+    //     if (messageList.length === 0) {
+    //         return;
+    //     }
+    //     const tail = messageList[messageList.length - 1];
+    //     if (tail.author !== "Lizard") {
+    //         return;
+    //     } else {
+    //         messageFromBotThunk(chat.author, "Hello", getMessageId(key), chatId);
+    //     }
+    // }, [messageList]);
 
 
-    if (!chat) {
-        return (
-            <>
-                <Button buttonRef={inputRef}><Link to="/chats">Back to chats</Link></Button>
-                <img src="https://previews.123rf.com/images/kaymosk/kaymosk1804/kaymosk180400006/100130939-error-404-page-not-found-error-with-glitch-effect-on-screen-vector-illustration-for-your-design-.jpg" alt="Page not found" />
-            </>
-        )
-    }
 
     return (
         <Grid container
@@ -123,3 +104,5 @@ export const ChatFull = (props) => {
         </Grid>
     );
 };
+
+export const Dialog = chatCheckedHOC(DialogPresent);
