@@ -1,12 +1,14 @@
 import { React, useRef, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/styles";
 import { Grid, Paper, InputBase, Button } from "@material-ui/core";
 import { Send } from "@material-ui/icons";
 import { MessageList } from "./messageList";
 import { Link, useParams } from "react-router-dom";
 import { addMessage } from "../../store/chats/messages/actions";
+import { getMessageList } from "../../store/chats/messages/selector";
 import { chatCheckedHOC } from "../HOCs/dialigHOC";
+import { messageFromBotThunk } from "../../store/middleware/messageFromBotThunk";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -28,6 +30,9 @@ export const DialogPresent = (chat) => {
     const { chatId } = useParams();
     const [key, setKey] = useState('0');
     const dispatch = useDispatch();
+    const messageListFull = useSelector(getMessageList);
+    const messageList = messageListFull[chatId];
+    console.log(messageListFull);
 
     const inputRef = useRef(null);
     useEffect(() => {
@@ -47,7 +52,6 @@ export const DialogPresent = (chat) => {
             "author": author,
             "text": text
         };
-        console.log("Message: ", newMessage);
         dispatch(addMessage(newMessage));
     };
 
@@ -60,17 +64,19 @@ export const DialogPresent = (chat) => {
         setValue(event.target.value);
     };
 
-    // useEffect(() => {
-    //     if (messageList.length === 0) {
-    //         return;
-    //     }
-    //     const tail = messageList[messageList.length - 1];
-    //     if (tail.author !== "Lizard") {
-    //         return;
-    //     } else {
-    //         messageFromBotThunk(chat.author, "Hello", getMessageId(key), chatId);
-    //     }
-    // }, [messageList]);
+    useEffect(() => {
+        console.log("THat's useEffect");
+        if (messageList.length === 0) {
+            return;
+        }
+        const tail = messageList[messageList.length - 1];
+        if (tail.author !== "Lizard") {
+            console.log(tail);
+            return;
+        } else {
+            messageFromBotThunk(chat.author, "Hello", getMessageId(key), chatId);
+        }
+    }, [messageList]);
 
 
 

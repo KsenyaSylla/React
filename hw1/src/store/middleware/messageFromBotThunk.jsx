@@ -4,6 +4,7 @@ import { addMessage } from "../chats/messages/actions";
 
 export const messageFromBotThunk = (author, text, id, chatId) => (dispatch) => {
     if (author !== "Lizard") {
+        console.log("thunk's working");
         return;
     } else {
         const newMessage = {
