@@ -4,7 +4,7 @@ import { Main } from "./components/main.jsx";
 import { Profile } from "./components/profile/profile.jsx";
 import { Routes, Route } from "react-router-dom";
 import { makeStyles } from "@material-ui/styles";
-import { ChatFull } from "./components/chats/chatFull.jsx";
+import { Dialog } from "./components/chats/dialog.jsx";
 import { ChatList } from "./components/chats/ChatList.jsx";
 
 const useStyles = makeStyles(() => ({
@@ -24,7 +24,7 @@ function App() {
             <Container className={classes.center}>
                 <Routes>
                     <Route path="/profile" element={<Profile />} />
-                    <Route exact path="/chats/:chatId" element={<ChatFull />} />
+                    <Route exact path="/chats/:chatId" element={<Dialog />} />
                     <Route exact path="/chats" element={<ChatList />} />
                     <Route path="/" element={<Main />} />
                 </Routes>

@@ -28,4 +28,4 @@ export const Store = createStore(
 );
 
 
-const persistor = persistStore(Store);
+export const persistor = persistStore(Store);
