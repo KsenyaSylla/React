@@ -18,7 +18,7 @@ export const deleteMessagesByChatId = (chatId) => ({
     payload: chatId
 });
 
-export const botMessage = (message) = ({
+export const botMessage = (message) => ({
     type: BOT_MESSAGE,
     payload: message
 });

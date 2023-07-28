@@ -1,4 +1,4 @@
-import { ADD_MESSAGE, DELETE_MESSAGE, DELETE_MESSAGES_BY_CHAT_ID } from "./actions";
+import { ADD_MESSAGE, BOT_MESSAGE, DELETE_MESSAGE, DELETE_MESSAGES_BY_CHAT_ID } from "./actions";
 
 const initialState = {
     messageList: {
@@ -20,7 +20,25 @@ const initialState = {
 export const messageReduser = (state = initialState, action) => {
     const messageList = state.messageList;
     switch (action.type) {
-        case ADD_MESSAGE:
+        case BOT_MESSAGE: {
+            let chatId = action.payload.chatId;
+            const { id, author, text } = action.payload;
+            const newMessage = {
+                "id": id,
+                "author": author,
+                "text": text
+            };
+
+            messageList[chatId] = [
+                ...(messageList[chatId] || []),
+                newMessage
+            ];
+            return ({
+                ...state,
+                messageList
+            });
+        }
+        case ADD_MESSAGE: {
             let chatId = action.payload.chatId;
             const { id, author, text } = action.payload;
             const newMessage = {
@@ -36,6 +54,7 @@ export const messageReduser = (state = initialState, action) => {
                 ...state,
                 messageList
             });
+        }
         case DELETE_MESSAGE:
             const chatIdForDeleteMessage = action.payload.chatId;
             const messageId = action.payload.messageId;
