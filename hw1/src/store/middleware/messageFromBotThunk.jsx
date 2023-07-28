@@ -1,7 +1,6 @@
-import nanoid from "nanoid";
+import { nanoid } from "nanoid";
 import { thunk } from "redux-thunk";
 import { addMessage } from "../chats/messages/actions";
-
 
 
 // export const messageFromBotThunk = (author, text, id, chatId) => (dispatch) => {
